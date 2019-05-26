@@ -1,6 +1,6 @@
 <?php
 
-namespace Orchids\LMS\Providers;
+namespace :vendor\:package_name\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
