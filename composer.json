@@ -38,6 +38,11 @@
         "test": "phpunit"
     },
     "extra": {
+        "laravel": {
+            "providers": [
+                ":vendor\\:package_name\\Providers\\PackageProvider"
+            ]
+        },
         "branch-alias": {
             "dev-master": "1.0-dev"
         }

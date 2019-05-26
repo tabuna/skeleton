@@ -11,6 +11,15 @@
 |
 */
 
+use  :vendor\:package_name\Http\Screens\PackageList;
+use  :vendor\:package_name\Http\Screens\PackageEdit;
+
+
 Route::get('/', function () {
     return view(':package_name::hello');
 });
+
+
+$this->router->screen(':package_name/{:package_name}/edit', PackageEdit::class)->name('edit');
+$this->router->screen(':package_name/create', PackageEdit::class)->name('create');
+$this->router->screen(':package_name', PackageList::class)->name('list');

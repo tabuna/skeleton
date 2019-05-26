@@ -1,4 +1,6 @@
-export default class extends window.Controller {
+import {Controller} from "stimulus"
+
+export default class extends Controller {
 
     static get targets() {
         return [ "name", "output" ]
