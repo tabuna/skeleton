@@ -1,5 +1,5 @@
 {
-    "name": ":vendor/:package_name",
+    "name": ":_vendor/:_package_name",
     "type": "library",
     "description": ":package_description",
     "keywords": [

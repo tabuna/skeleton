@@ -34,7 +34,7 @@ class RouteServiceProvider extends ServiceProvider
     public function binding()
     {
 
-        Route::bind(':package_name', function ($value) {
+        Route::bind(':_package_name', function ($value) {
 			return Package::firstOrNew(['id'=>$value]);
         });
 
@@ -52,8 +52,8 @@ class RouteServiceProvider extends ServiceProvider
         }
 
         Route::domain((string) config('platform.domain'))
-            ->prefix(Dashboard::prefix(':package_name'))
-            ->as('platform.:package_name.')
+            ->prefix(Dashboard::prefix(':_package_name'))
+            ->as('platform.:_package_name.')
             ->middleware(config('platform.middleware.private'))
             ->group(realpath(:package_name_PATH.'/routes/platform.php'));
     }

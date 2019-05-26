@@ -63,7 +63,7 @@ class PackageEdit extends Screen
     public function commandBar() : array
     {
         return [
-            Link::name(__('Back to list'))->icon('icon-arrow-left-circle')->link(route(':package_name')),
+            Link::name(__('Back to list'))->icon('icon-arrow-left-circle')->link(route(':_package_name.list')),
             Link::name(__('Save'))->icon('icon-check')->method('save'),
             Link::name(__('Remove'))->icon('icon-close')->method('remove')->canSee($this->edit),
         ];
@@ -101,7 +101,7 @@ class PackageEdit extends Screen
         $package->save();
 
         Alert::info(__('Package was saved'));
-        return redirect()->route(':package_name');
+        return redirect()->route(':_package_name.list');
     }
     /**
      * @param Package $package
@@ -114,6 +114,6 @@ class PackageEdit extends Screen
     {
         $package->delete();
         Alert::info(__('Package was removed'));
-        return redirect()->route(':package_name');
+        return redirect()->route(':_package_name.list');
     }
 }

@@ -21,17 +21,17 @@ class PackageProvider extends ServiceProvider
 
         $this->registerTranslations();
 
-        $this->loadViewsFrom(realpath(:package_name_PATH.'/resources/views'), 'orchids/lms');
+        $this->loadViewsFrom(realpath(:package_name_PATH.'/resources/views'), ':_package_name');
 
         $this->loadMigrationsFrom(realpath(:package_name_PATH.'/database/migrations'));
 
         View::composer('platform::dashboard', MenuComposer::class);
 
         $this->dashboard
-            ->addPublicDirectory(':package_name',:package_name_PATH.'/public/');
+            ->addPublicDirectory(':_package_name',:package_name_PATH.'/public/');
         \View::composer('platform::layouts.app', function () {
-            \Dashboard::registerResource('scripts', orchid_mix('/js/app.js', ':package_name'))
-                ->registerResource('stylesheets', orchid_mix('/css/app.css', ':package_name'));
+            \Dashboard::registerResource('scripts', orchid_mix('/js/app.js', ':_package_name'))
+                ->registerResource('stylesheets', orchid_mix('/css/app.css', ':_package_name'));
         });
 
         $this->app->register(RouteServiceProvider::class);
@@ -47,7 +47,7 @@ class PackageProvider extends ServiceProvider
     protected function registerPermissions(): ItemPermission
     {
         return ItemPermission::group(__(':package_name'))
-            ->addPermission('platform.:package_name', __(':package_name'));
+            ->addPermission('platform.:_package_name', __(':package_name'));
     }
 
     /**

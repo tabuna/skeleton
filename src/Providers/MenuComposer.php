@@ -26,20 +26,20 @@ class MenuComposer
         $this->dashboard->menu
             ->add('Main',
                 ItemMenu::Label(':package_name')
-                    ->Slug(':package_name-menu')
+                    ->Slug(':_package_name-menu')
                     ->Icon('icon-notebook')
                     ->Childs(true)
-                    ->Active(':package_name.*')
-                    ->Permission('platform.:package_name')
+                    ->Active(':_package_name.*')
+                    ->Permission('platform.:_package_name')
                     ->Sort(100)
             )
-            ->add(':package_name-menu',
+            ->add(':_package_name-menu',
                 ItemMenu::Label(':package_name')
-                    ->Slug(':package_name-list')
+                    ->Slug(':_package_name-list')
                     ->Icon('icon-notebook')
-                    ->Route(':package_name')
+                    ->Route(':_package_name.list')
                     ->Title('Package list')
-                    ->Permission('platform.:package_name')
+                    ->Permission('platform.:_package_name')
                     ->Sort(10)
             );
     }

@@ -17,7 +17,7 @@ class PackageListLayout extends Table
     {
         return  [
 			TD::set('input','Title')
-                ->link(':package_name.edit','id','title'),
+                ->link(':_package_name.edit','id','title'),
 			TD::set('body', 'Text')
                 ->render(function ($package) {
                     return str_limit($package->getContent('body'), 50);

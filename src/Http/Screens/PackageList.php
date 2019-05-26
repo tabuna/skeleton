@@ -61,6 +61,6 @@ class PackageList extends Screen
      */
     public function create()
     {
-        return redirect()->route(':package_name.create');
+        return redirect()->route(':_package_name.create');
     }
 }

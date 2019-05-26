@@ -10,7 +10,7 @@ $fields = [
     'author_twitter' =>         ['Your twitter username', '',                                                '@{author_github_username}'],
     'author_website' =>         ['Your website',          '',                                                'https://github.com/{author_github_username}'],
 
-    'package_vendor' =>         ['Package vendor',        '<vendor> in https://github.com/vendor/package',   '{author_github_username}'],
+    'package_vendor' =>         ['Package vendor',        '<vendor> in https://github.com/vendor/package',   '{author_name}'],
     'package_name' =>           ['Package name',          '<package> in https://github.com/vendor/package',  ''],
     'package_description' =>    ['Package very short description',   '',                                     ''],
 
@@ -28,6 +28,8 @@ $replacements = [
     ':vendor'                      => function () use(&$values) { return $values['package_vendor']; },
     ':package_name'                => function () use(&$values) { return $values['package_name']; },
     ':package_description'         => function () use(&$values) { return $values['package_description']; },
+    ':_vendor'                     => function () use(&$values) { return strtolower($values['package_vendor']); },
+    ':_package_name'               => function () use(&$values) { return strtolower($values['package_name']); },
 ];
 
 function read_from_console ($prompt) {
@@ -91,13 +93,17 @@ do {
 } while (($modify = strtolower(read_from_console('Modify files with these values? [y/N/q] '))) != 'y');
 echo "\n";
 
+$files = DirFilesR(__DIR__ . '/src');
+
 $files = array_merge(
+    $files,
     glob(__DIR__ . '/*.md'),
     glob(__DIR__ . '/*.xml.dist'),
     glob(__DIR__ . '/composer.json'),
     glob(__DIR__ . '/src/*.php'),
     glob(__DIR__ . '/tests/*.php')
 );
+
 foreach ($files as $f) {
     $contents = file_get_contents($f);
     foreach ($replacements as $str => $func) {
@@ -106,5 +112,40 @@ foreach ($files as $f) {
     file_put_contents($f, $contents);
 }
 
+/*
+foreach ($files as $f) {
+    $newFile = str_replace('package',strtolower($values['package_name']),$f);
+    $newFile = str_replace('Package',$values['package_name'],$newFile);
+    rename($f, $newFile);
+}
+*/
+
 echo "Done.\n";
 echo "Now you should remove the file '" . basename(__FILE__) . "'.\n";
+
+
+function DirFilesR($dir)
+{
+    $handle = opendir($dir) or die("Can't open directory $dir");
+    $files = Array();
+    $subfiles = Array();
+    while (false !== ($file = readdir($handle)))
+    {
+        if ($file != "." && $file != "..")
+        {
+            if(is_dir($dir."/".$file))
+            {
+                $subfiles = DirFilesR($dir."/".$file);
+                $files = array_merge($files,$subfiles);
+            }
+            else
+            {
+                $files[] = $dir."/".$file;
+            }
+        }
+    }
+    closedir($handle);
+
+    return $files;
+}
+
