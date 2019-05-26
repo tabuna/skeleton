@@ -101,6 +101,7 @@ $files = array_merge(
     glob(__DIR__ . '/*.xml.dist'),
     glob(__DIR__ . '/composer.json'),
     glob(__DIR__ . '/src/*.php'),
+    glob(__DIR__ . '/routes/*.php'),
     glob(__DIR__ . '/tests/*.php')
 );
 

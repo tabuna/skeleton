@@ -5,7 +5,6 @@ namespace Orchids\LMS\Providers;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Orchid\Platform\Http\Middleware\AccessMiddleware;
-use Orchid\Platform\Widget\WidgetContractInterface;
 use Orchid\Platform\Dashboard;
 use :vendor\:package_name\Models\Package;
 
