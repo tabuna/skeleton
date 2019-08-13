@@ -17,26 +17,26 @@ use Orchid\Screen\Field;
 use Orchid\Screen\Builder;
 use Orchid\Screen\Fields\UTM;
 
-class PackageEditLayout extends Rows
+class :package_nameEditLayout extends Rows
 {
     /**
      * @return array
      */
 	public function fields(): array
     {
-        $data_con='data.content.'.app()->getLocale();
+        $contentLocale = 'data.content.'.app()->getLocale();
 
         return [
-            Input::make($data_con.'.title')
+            Input::make($contentLocale.'.title')
                 ->type('text')
                 ->max(255)
                 ->required()
-                ->title('Package name')
-                ->help('Package name help'),
+                ->title(':package_name name')
+                ->help(':package_name name help'),
 
-            TinyMCE::make($data_con.'.body')
-                    ->title('Package description')
-                    ->help('Package description help')
+            TinyMCE::make($contentLocale.'.body')
+                    ->title(':package_name description')
+                    ->help(':package_name description help')
                     ->theme('modern'),
         ];
 

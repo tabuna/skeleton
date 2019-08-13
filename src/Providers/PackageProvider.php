@@ -8,36 +8,34 @@ use Illuminate\Support\Facades\View;
 use Orchid\Platform\Dashboard;
 use Orchid\Platform\ItemPermission;
 
-class PackageProvider extends ServiceProvider
+class :package_nameProvider extends ServiceProvider
 {
     /**
      * Boot the service provider.
-     * After change run:  php artisan vendor:publish --provider="Orchids\DemoKit\Providers\DemoKitProvider"
+     * After change run:  php artisan vendor:publish --provider=":vendor\:package_name\Providers\:package_nameProvider"
      */
     public function boot(Dashboard $dashboard)
     {
         $this->dashboard = $dashboard;
 
-
         $this->registerTranslations();
 
-        $this->loadViewsFrom(realpath(:package_name_PATH.'/resources/views'), ':_package_name');
+        $this->loadViewsFrom($this->getPath('/resources/views'), ':_package_name');
 
-        $this->loadMigrationsFrom(realpath(:package_name_PATH.'/database/migrations'));
+        $this->loadMigrationsFrom($this->getPath('/database/migrations'));
 
         View::composer('platform::dashboard', MenuComposer::class);
 
         $this->dashboard
-            ->addPublicDirectory(':_package_name',:package_name_PATH.'/public/');
-        \View::composer('platform::layouts.app', function () {
+            ->addPublicDirectory(':_package_name',$this->getPath('/public/'));
+        View::composer('platform::layouts.app', function () {
             \Dashboard::registerResource('scripts', orchid_mix('/js/app.js', ':_package_name'))
                 ->registerResource('stylesheets', orchid_mix('/css/app.css', ':_package_name'));
         });
 
-        $this->app->register(RouteServiceProvider::class);
-
         $this->app->booted(function () {
             $this->dashboard->registerPermissions($this->registerPermissions());
+            $this->routes();
         });
     }
 
@@ -51,15 +49,13 @@ class PackageProvider extends ServiceProvider
     }
 
     /**
-     * Register the service provider.
+     * Get real path
      */
-    public function register()
+    public function getPath($path)
     {
-
-        if (! defined(':package_name_PATH')) {
-            define(':package_name_PATH', realpath(__DIR__.'/../../'));
-        }
+        return realpath(__DIR__.'/../../'.$path);
     }
+
 
     /**
      * Register translations.
@@ -68,7 +64,24 @@ class PackageProvider extends ServiceProvider
      */
     public function registerTranslations(): self
     {
-        $this->loadJsonTranslationsFrom(realpath(:package_name_PATH.'/resources/lang/'));
+        $this->loadJsonTranslationsFrom($this->getPath('/resources/lang/'));
         return $this;
+    }
+
+    /**
+     * Register the tool's routes.
+     *
+     * @return void
+     */
+    protected function routes()
+    {
+        if ($this->app->routesAreCached()) {
+            return;
+        }
+        Route::domain((string) config('platform.domain'))
+            ->prefix(Dashboard::prefix(':_package_name'))
+            ->as('platform.:_package_name.')
+            ->middleware(config('platform.middleware.private'))
+            ->group($this->getPath('/routes/:_package_name.php'));
     }
 }

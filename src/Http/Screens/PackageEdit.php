@@ -5,12 +5,11 @@ use Orchid\Support\Facades\Alert;
 use Orchid\Screen\Layout;
 use Orchid\Screen\Link;
 use Orchid\Screen\Screen;
+use :vendor\:package_name\Models\:package_name;
+use :vendor\:package_name\Http\Layouts\:package_nameEditLayout;
 
-use :vendor\:package_name\Models\Package;
-use :vendor\:package_name\Http\Layouts\PackageEditLayout;
 
-
-class PackageEdit extends Screen
+class :package_nameEdit extends Screen
 {
 
     /**
@@ -18,43 +17,42 @@ class PackageEdit extends Screen
      *
      * @var string
      */
-    public $name = 'Package edit';
+    public $name = 'New :package_name';
+
     /**
      * Display header description
      *
      * @var string
      */
-    public $description = 'Package edit description';
+    public $description = 'Add new :package_name';
+
     /**
      * Edit or add setting
      *
      * @var boolean
      */
-    public $edit=true;
+    public $edit=false;
+
     /**
      * Query data
      *
-     * @param Package $package
+     * @param :package_name $:_package_name
      *
      * @return array
      */
-    public function query($package = null) : array
+    public function query(:package_name $:_package_name) : array
     {
-        if (is_null($package)) {
-            $package = new Package();
-            $this->name = __('New package');
-            $this->description = __('Add new package');
-            $this->edit = false;
-        } else {
+        if ($:_package_name->exist()) {
             $this->name = __('Package edit');
-            $this->description = $package->options['title'];
+            $this->description = $:_package_name->getContent('title');
             $this->edit = true;
         }
 
         return [
-            'data'   => $package,
+            'data'   => $:_package_name,
         ];
     }
+
     /**
      * Button commands
      *
@@ -68,6 +66,7 @@ class PackageEdit extends Screen
             Link::name(__('Remove'))->icon('icon-close')->method('remove')->canSee($this->edit),
         ];
     }
+
     /**
      * Views
      *
@@ -78,41 +77,40 @@ class PackageEdit extends Screen
         return [
 
             Layout::columns([
-                'EditPackage' => [
-                    PackageEditLayout::class
+                'Edit:package_name' => [
+                    :package_nameEditLayout::class
                 ],
             ]),
 
         ];
     }
+
     /**
      * @param $request
-     * @param Package $package
+     * @param :package_name $package
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function save($request, Package $package)
+    public function save($request, :package_name $:_package_name)
     {
-
-        $package = is_null($package) ? new Package() : $package;
         $req = $this->request->get('data');
-        $package->fill($req);
-        $package->slug = is_null($package->slug) ? $package->makeSlug($req['content'][app()->getLocale()]['title']) : $package->slug;
-        $package->save();
-
+        $:_package_name->fill($req);
+        $:_package_name->setSlug($req['content'][app()->getLocale()]['title'],true);
+        $:_package_name->save();
         Alert::info(__('Package was saved'));
+
         return redirect()->route(':_package_name.list');
     }
+
     /**
-     * @param Package $package
+     * @param :package_name $:_package_name
      *
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-
-    public function remove(Package $package)
+    public function remove(:package_name $:_package_name)
     {
-        $package->delete();
+        $:_package_name->delete();
         Alert::info(__('Package was removed'));
         return redirect()->route(':_package_name.list');
     }

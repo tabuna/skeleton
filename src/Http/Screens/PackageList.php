@@ -4,24 +4,23 @@ namespace :vendor\:package_name\Http\Screens;
 use Orchid\Screen\Screen;
 use Orchid\Screen\Layouts;
 use Orchid\Screen\Link;
+use :vendor\:package_name\Models\:package_name;
+use :vendor\:package_name\Http\Layouts\:package_nameListLayout;
 
-use :vendor\:package_name\Models\Package;
-use :vendor\:package_name\Http\Layouts\PackageListLayout;
-
-class PackageList extends Screen
+class :package_nameList extends Screen
 {
     /**
      * Display header name
      *
      * @var string
      */
-    public $name = 'Package List';
+    public $name = ':package_name List';
     /**
      * Display header description
      *
      * @var string
      */
-    public $description = 'List all data in package';
+    public $description = 'List all data in :package_name';
     /**
      * Query data
      *
@@ -29,9 +28,8 @@ class PackageList extends Screen
      */
     public function query() : array
     {
-        $this->name = __('Package List');
         return [
-            'data' => Package::filters()->defaultSort('slug', 'desc')->paginate(30)
+            'data' => :package_name::filters()->defaultSort('slug', 'desc')->paginate(30)
         ];
     }
     /**
@@ -53,7 +51,7 @@ class PackageList extends Screen
     public function layout() : array
     {
         return [
-            PackageListLayout::class,
+            :package_nameListLayout::class,
         ];
     }
     /**

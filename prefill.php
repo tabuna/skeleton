@@ -57,6 +57,29 @@ function interpolate($text, $values)
     return $text;
 }
 
+function get_files_in_dir($dir)
+{
+    $handle = opendir($dir) or die("Can't open directory $dir");
+    $files = [];
+    while (false !== ($file = readdir($handle))) {
+        if ($file == "." || $file == "..") {
+            continue;
+        }
+
+        if(is_dir($dir."/".$file))
+        {
+            $subfiles = get_files_in_dir($dir."/".$file);
+            $files = array_merge($files,$subfiles);
+            continue;
+        }
+
+        $files[] = $dir."/".$file;
+    }
+    closedir($handle);
+
+    return $files;
+}
+
 $modify = 'n';
 do {
     if ($modify == 'q') {
@@ -93,7 +116,7 @@ do {
 } while (($modify = strtolower(read_from_console('Modify files with these values? [y/N/q] '))) != 'y');
 echo "\n";
 
-$files = DirFilesR(__DIR__ . '/src');
+$files = get_files_in_dir(__DIR__ . '/src');
 
 $files = array_merge(
     $files,
@@ -113,40 +136,15 @@ foreach ($files as $f) {
     file_put_contents($f, $contents);
 }
 
-/*
 foreach ($files as $f) {
-    $newFile = str_replace('package',strtolower($values['package_name']),$f);
-    $newFile = str_replace('Package',$values['package_name'],$newFile);
-    rename($f, $newFile);
+    $fileName =  basename($f);
+    $dirName = dirname($f) . DIRECTORY_SEPARATOR;
+    $newFileName = str_replace('package',strtolower($values['package_name']),$fileName);
+    $newFileName = str_replace('Package',$values['package_name'],$newFileName);
+
+    rename($dirName.$fileName, $dirName.$newFileName);
 }
-*/
 
 echo "Done.\n";
 echo "Now you should remove the file '" . basename(__FILE__) . "'.\n";
-
-
-function DirFilesR($dir)
-{
-    $handle = opendir($dir) or die("Can't open directory $dir");
-    $files = Array();
-    $subfiles = Array();
-    while (false !== ($file = readdir($handle)))
-    {
-        if ($file != "." && $file != "..")
-        {
-            if(is_dir($dir."/".$file))
-            {
-                $subfiles = DirFilesR($dir."/".$file);
-                $files = array_merge($files,$subfiles);
-            }
-            else
-            {
-                $files[] = $dir."/".$file;
-            }
-        }
-    }
-    closedir($handle);
-
-    return $files;
-}
 

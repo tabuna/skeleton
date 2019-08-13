@@ -4,12 +4,13 @@ namespace :vendor\:package_name\Http\Layouts;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
-class PackageListLayout extends Table
+class :package_nameListLayout extends Table
 {
     /**
      * @var string
      */
     public $data = 'data';
+
     /**
      * @return array
      */
@@ -19,8 +20,8 @@ class PackageListLayout extends Table
 			TD::set('input','Title')
                 ->link(':_package_name.edit','id','title'),
 			TD::set('body', 'Text')
-                ->render(function ($package) {
-                    return str_limit($package->getContent('body'), 50);
+                ->render(function ($data) {
+                    return str_limit($data->getContent('body'), 50);
                 }),
         ];
     }

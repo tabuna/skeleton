@@ -11,8 +11,8 @@
 |
 */
 
-use  :vendor\:package_name\Http\Screens\PackageList;
-use  :vendor\:package_name\Http\Screens\PackageEdit;
+use  :vendor\:package_name\Http\Screens\:package_nameList;
+use  :vendor\:package_name\Http\Screens\:package_nameEdit;
 
 
 Route::get('/', function () {
@@ -20,6 +20,6 @@ Route::get('/', function () {
 });
 
 
-$this->router->screen(':_package_name/{:_package_name}/edit', PackageEdit::class)->name('edit');
-$this->router->screen(':_package_name/create', PackageEdit::class)->name('create');
-$this->router->screen(':_package_name', PackageList::class)->name('list');
+$this->router->screen(':_package_name/{:_package_name}/edit', :package_nameEdit::class)->name('edit');
+$this->router->screen(':_package_name/create', :package_nameEdit::class)->name('create');
+$this->router->screen(':_package_name', :package_nameList::class)->name('list');

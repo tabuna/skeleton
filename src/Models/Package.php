@@ -2,26 +2,22 @@
 
 namespace :vendor\:package_name\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-
-use Orchid\Attachment\Attachable;
 use Orchid\Screen\AsMultiSource;
+use Orchid\Attachment\Attachable;
+use Illuminate\Database\Eloquent\Model;
 
-
-class Package extends Model
+class :package_name extends Model
 {
     use AsMultiSource,  Attachable;
 
-	protected $table = 'packages';
-
+	protected $table = ':_package_names';
 
 	protected $fillable = [
         'slug',
 		'content',
 		'options',
     ];
-
 
 	/**
      * @var array
@@ -31,7 +27,6 @@ class Package extends Model
         'options' => 'array',
     ];
 
-
     /**
      * @param $title
      *
@@ -40,10 +35,24 @@ class Package extends Model
     public function makeSlug($title) : string
     {
         $slug = Str::slug($title);
-        $count = static::whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")
+        $count = static::whereRaw("slug REGEXP '^{$slug}(-[0-9]+)?$'")
             ->count();
 
         return $count ? "{$slug}-{$count}" : $slug;
+    }
+
+    /**
+     * @param $title
+     *
+     * @return string
+     */
+    public function setSlug($title, $changeIfNotNull = false) : string
+    {
+        if (is_null($this->slug) || $changeIfNotNull) {
+            $this->slug = $this->makeSlug($title);
+        }
+
+        return $this->slug;
     }
 
 }
