@@ -84,6 +84,6 @@ class :package_nameProvider extends ServiceProvider
             ->prefix(Dashboard::prefix('/:_package_name'))
             ->as('platform.:_package_name.')
             ->middleware(config('platform.middleware.private'))
-            ->group($this->getPath('/routes/:_package_name.php'));
+            ->group($this->getPath('/routes/route.php'));
     }
 }
