@@ -5,8 +5,10 @@ use Illuminate\Console\Command;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Route;
 use Orchid\Platform\Dashboard;
 use Orchid\Platform\ItemPermission;
+
 
 class :package_nameProvider extends ServiceProvider
 {
@@ -79,7 +81,7 @@ class :package_nameProvider extends ServiceProvider
             return;
         }
         Route::domain((string) config('platform.domain'))
-            ->prefix(Dashboard::prefix(':_package_name'))
+            ->prefix(Dashboard::prefix('/:_package_name'))
             ->as('platform.:_package_name.')
             ->middleware(config('platform.middleware.private'))
             ->group($this->getPath('/routes/:_package_name.php'));

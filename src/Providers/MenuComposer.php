@@ -27,7 +27,7 @@ class MenuComposer
             ->add('Main',
                 ItemMenu::Label(':package_name')
                     ->Slug(':_package_name-menu')
-                    ->Icon('icon-notebook')
+                    ->Icon('icon-folder-alt')
                     ->Childs(true)
                     ->Active(':_package_name.*')
                     ->Permission('platform.:_package_name')
@@ -41,6 +41,14 @@ class MenuComposer
                     ->Title('Package list')
                     ->Permission('platform.:_package_name')
                     ->Sort(10)
-            );
+            )
+            ->add(':_package_name-menu',
+                ItemMenu::Label('Hello')
+                    ->Slug(':_package_name-hello')
+                    ->Icon('icon-note')
+                    ->Route('platform.:_package_name.')
+                    ->Permission('platform.:_package_name')
+                    ->Sort(20)
+            );;
     }
 }

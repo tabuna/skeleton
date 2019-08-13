@@ -3,13 +3,14 @@
 namespace :vendor\:package_name\Models;
 
 use Illuminate\Support\Str;
+use Orchid\Filters\Filterable;
 use Orchid\Screen\AsMultiSource;
 use Orchid\Attachment\Attachable;
 use Illuminate\Database\Eloquent\Model;
 
 class :package_name extends Model
 {
-    use AsMultiSource,  Attachable;
+    use Filterable, AsMultiSource,  Attachable;
 
 	protected $table = ':_package_names';
 

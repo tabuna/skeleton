@@ -42,7 +42,7 @@ class :package_nameEdit extends Screen
      */
     public function query(:package_name $:_package_name) : array
     {
-        if ($:_package_name->exist()) {
+        if ($:_package_name->exists) {
             $this->name = __(':package_name edit');
             $this->description = $:_package_name->getContent('title');
             $this->edit = true;
@@ -61,7 +61,7 @@ class :package_nameEdit extends Screen
     public function commandBar() : array
     {
         return [
-            Link::name(__('Back to list'))->icon('icon-arrow-left-circle')->link(route(':_package_name.list')),
+            Link::name(__('Back to list'))->icon('icon-arrow-left-circle')->link(route('platform.:_package_name.list')),
             Link::name(__('Save'))->icon('icon-check')->method('save'),
             Link::name(__('Remove'))->icon('icon-close')->method('remove')->canSee($this->edit),
         ];
