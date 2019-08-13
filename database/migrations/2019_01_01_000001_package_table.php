@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-class PackageTable extends Migration
+class :package_nameTable extends Migration
 {
     /**
      * Run the migrations.
@@ -10,7 +10,7 @@ class PackageTable extends Migration
      */
     public function up()
     {
-        Schema::create('packages', function (Blueprint $table) {
+        Schema::create(':_package_names', function (Blueprint $table) {
             $table->increments('id');
             $table->string('slug', '255')->unique();
             $table->jsonb('content');
@@ -25,6 +25,6 @@ class PackageTable extends Migration
      */
     public function down()
     {
-	    Schema::dropIfExists('packages');
+	    Schema::dropIfExists(':package_names');
     }
 }
