@@ -123,8 +123,9 @@ $files = array_merge(
     glob(__DIR__ . '/*.md'),
     glob(__DIR__ . '/*.xml.dist'),
     glob(__DIR__ . '/composer.json'),
+    glob(__DIR__ . '/resources/lang/*.json'),
     glob(__DIR__ . '/src/*.php'),
-    glob(__DIR__ . '/database/*.php'),
+    glob(__DIR__ . '/database/migrations/*.php'),
     glob(__DIR__ . '/routes/*.php'),
     glob(__DIR__ . '/tests/*.php')
 );

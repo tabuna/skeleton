@@ -37,7 +37,7 @@ class MenuComposer
                 ItemMenu::Label(':package_name')
                     ->Slug(':_package_name-list')
                     ->Icon('icon-notebook')
-                    ->Route(':_package_name.list')
+                    ->Route('platform.:_package_name.list')
                     ->Title('Package list')
                     ->Permission('platform.:_package_name')
                     ->Sort(10)

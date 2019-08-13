@@ -43,7 +43,7 @@ class :package_nameEdit extends Screen
     public function query(:package_name $:_package_name) : array
     {
         if ($:_package_name->exist()) {
-            $this->name = __('Package edit');
+            $this->name = __(':package_name edit');
             $this->description = $:_package_name->getContent('title');
             $this->edit = true;
         }
@@ -97,9 +97,9 @@ class :package_nameEdit extends Screen
         $:_package_name->fill($req);
         $:_package_name->setSlug($req['content'][app()->getLocale()]['title'],true);
         $:_package_name->save();
-        Alert::info(__('Package was saved'));
+        Alert::info(__(':package_name was saved'));
 
-        return redirect()->route(':_package_name.list');
+        return redirect()->route('platform.:_package_name.list');
     }
 
     /**
@@ -111,7 +111,7 @@ class :package_nameEdit extends Screen
     public function remove(:package_name $:_package_name)
     {
         $:_package_name->delete();
-        Alert::info(__('Package was removed'));
-        return redirect()->route(':_package_name.list');
+        Alert::info(__(':package_name was removed'));
+        return redirect()->route('platform.:_package_name.list');
     }
 }

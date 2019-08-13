@@ -25,6 +25,6 @@ class :package_nameTable extends Migration
      */
     public function down()
     {
-	    Schema::dropIfExists(':package_names');
+	    Schema::dropIfExists(':_package_names');
     }
 }
