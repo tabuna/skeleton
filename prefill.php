@@ -10,7 +10,7 @@ $fields = [
     'author_twitter' =>         ['Your twitter username', '',                                                '@{author_github_username}'],
     'author_website' =>         ['Your website',          '',                                                'https://github.com/{author_github_username}'],
 
-    'package_vendor' =>         ['Package vendor',        '<vendor> in https://github.com/vendor/package',   '{author_github_username}'],
+    'package_vendor' =>         ['Package vendor',        '<vendor> in https://github.com/vendor/package',   '{author_name}'],
     'package_name' =>           ['Package name',          '<package> in https://github.com/vendor/package',  ''],
     'package_description' =>    ['Package very short description',   '',                                     ''],
 
@@ -28,6 +28,8 @@ $replacements = [
     ':vendor'                      => function () use(&$values) { return $values['package_vendor']; },
     ':package_name'                => function () use(&$values) { return $values['package_name']; },
     ':package_description'         => function () use(&$values) { return $values['package_description']; },
+    ':_vendor'                     => function () use(&$values) { return strtolower($values['package_vendor']); },
+    ':_package_name'               => function () use(&$values) { return strtolower($values['package_name']); },
 ];
 
 function read_from_console ($prompt) {
@@ -53,6 +55,29 @@ function interpolate($text, $values)
         $text = str_replace($str, $values[$f], $text);
     }
     return $text;
+}
+
+function get_files_in_dir($dir)
+{
+    $handle = opendir($dir) or die("Can't open directory $dir");
+    $files = [];
+    while (false !== ($file = readdir($handle))) {
+        if ($file == "." || $file == "..") {
+            continue;
+        }
+
+        if(is_dir($dir."/".$file))
+        {
+            $subfiles = get_files_in_dir($dir."/".$file);
+            $files = array_merge($files,$subfiles);
+            continue;
+        }
+
+        $files[] = $dir."/".$file;
+    }
+    closedir($handle);
+
+    return $files;
 }
 
 $modify = 'n';
@@ -91,13 +116,20 @@ do {
 } while (($modify = strtolower(read_from_console('Modify files with these values? [y/N/q] '))) != 'y');
 echo "\n";
 
+$files = get_files_in_dir(__DIR__ . '/src');
+
 $files = array_merge(
+    $files,
     glob(__DIR__ . '/*.md'),
     glob(__DIR__ . '/*.xml.dist'),
     glob(__DIR__ . '/composer.json'),
+    glob(__DIR__ . '/resources/lang/*.json'),
     glob(__DIR__ . '/src/*.php'),
+    glob(__DIR__ . '/database/migrations/*.php'),
+    glob(__DIR__ . '/routes/*.php'),
     glob(__DIR__ . '/tests/*.php')
 );
+
 foreach ($files as $f) {
     $contents = file_get_contents($f);
     foreach ($replacements as $str => $func) {
@@ -106,5 +138,15 @@ foreach ($files as $f) {
     file_put_contents($f, $contents);
 }
 
+foreach ($files as $f) {
+    $fileName =  basename($f);
+    $dirName = dirname($f) . DIRECTORY_SEPARATOR;
+    $newFileName = str_replace('package',strtolower($values['package_name']),$fileName);
+    $newFileName = str_replace('Package',$values['package_name'],$newFileName);
+
+    rename($dirName.$fileName, $dirName.$newFileName);
+}
+
 echo "Done.\n";
 echo "Now you should remove the file '" . basename(__FILE__) . "'.\n";
+

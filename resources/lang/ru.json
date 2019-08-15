@@ -1,0 +1,5 @@
+{
+  ":package_name edit": "Редактирование :package_name",
+  ":package_name edit description": "Описание редактирования :package_name",
+  "List all data in :package_name": "Список всех данных :package_name"
+}
