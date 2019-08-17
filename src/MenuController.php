@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Orchid\Menu;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Orchid\Platform\Dashboard;
-use Illuminate\Contracts\View\View;
 use Orchid\Platform\Http\Controllers\Controller;
 
 class MenuController extends Controller

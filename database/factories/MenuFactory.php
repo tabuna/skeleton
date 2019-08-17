@@ -1,8 +1,8 @@
 <?php
 
 use Faker\Generator as Faker;
-use Orchid\Press\Models\Menu;
 use Illuminate\Support\Str;
+use Orchid\Press\Models\Menu;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +27,8 @@ $factory->define(Menu::class, function (Faker $faker) {
 
     return [
         'label'  => Str::slug($MenuTitle),
-        'title'  => $MenuTitle.' '. Str::slug($faker->word),
-        'slug'   => '/'. Str::slug($MenuTitle),
+        'title'  => $MenuTitle.' '.Str::slug($faker->word),
+        'slug'   => '/'.Str::slug($MenuTitle),
         'robot'  => $faker->randomElement($RobotArr),
         'style'  => $faker->safeColorName,
         'target' => $faker->randomElement(['_self', '_blank']),
