@@ -10,12 +10,12 @@ class :package_nameListLayout extends Table
     /**
      * @var string
      */
-    public $data = 'data';
+    public $target = 'data';
 
     /**
      * @return array
      */
-    public function fields() : array
+    public function columns() : array
     {
         return  [
 		TD::set('input','Title')
