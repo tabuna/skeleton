@@ -3,7 +3,7 @@ namespace :vendor\:package_name\Http\Screens;
 
 use Orchid\Screen\Screen;
 use Orchid\Screen\Layouts;
-use Orchid\Screen\Link;
+use Orchid\Screen\Actions\Button;
 use :vendor\:package_name\Models\:package_name;
 use :vendor\:package_name\Http\Layouts\:package_nameListLayout;
 
@@ -40,7 +40,7 @@ class :package_nameList extends Screen
     public function commandBar() : array
     {
         return [
-            Link::name('Add')->method('create'),
+            Button::make('Add')->method('create'),
         ];
     }
     /**
