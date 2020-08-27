@@ -3,7 +3,8 @@ namespace :vendor\:package_name\Http\Screens;
 
 use Orchid\Support\Facades\Alert;
 use Orchid\Screen\Layout;
-use Orchid\Screen\Link;
+use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 use :vendor\:package_name\Models\:package_name;
 use :vendor\:package_name\Http\Layouts\:package_nameEditLayout;
@@ -61,9 +62,9 @@ class :package_nameEdit extends Screen
     public function commandBar() : array
     {
         return [
-            Link::name(__('Back to list'))->icon('icon-arrow-left-circle')->link(route('platform.:_package_name.list')),
-            Link::name(__('Save'))->icon('icon-check')->method('save'),
-            Link::name(__('Remove'))->icon('icon-close')->method('remove')->canSee($this->edit),
+            Link::make(__('Back to list'))->icon('icon-arrow-left-circle')->route('platform.:_package_name.list'),
+            Button::make(__('Save'))->icon('icon-check')->method('save'),
+            Button::make(__('Remove'))->icon('icon-close')->method('remove')->canSee($this->edit),
         ];
     }
 
