@@ -83,7 +83,7 @@ function interpolate($text, $values)
 
 function get_files_in_dir($dir)
 {
-    $handle = opendir($dir) or die("Can't open directory $dir");
+    $handle = opendir($dir) or exit("Can't open directory $dir");
     $files = [];
     while (false !== ($file = readdir($handle))) {
         if ($file == '.' || $file == '..') {
